@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-vector<int> v;
+vector<long long> v;
 /**
 void number(int n){
 	while(n>0){
@@ -10,20 +10,20 @@ void number(int n){
 	}
 }
 **/
-void go(int n){
+void go(long long n){
 	if(n<=0) return ;
-	int temp=n%10;
+	long long temp=n%10;
 	v.push_back(temp);
 	go(n/10);
 }
 
 void print(){
-	int i=0;
+	long long i=0;
 	while(v[i]==0){
 		i++;
 	}
 	for(;i<v.size();i++){
-		cout<<v[i]<<" ";
+		cout<<v[i];
 	}
 }
 /**
@@ -37,11 +37,12 @@ int main(){
 	int t;
 	cin>>t;
 	while(t--){
-		int n;
+		long long n;
 		cin>>n;
 		go(n);
 		print();
 		cout<<endl;
+		v.clear();
 	}
 	return 0;
 }
