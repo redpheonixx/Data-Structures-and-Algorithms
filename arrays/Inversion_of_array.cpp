@@ -1,50 +1,52 @@
+// Problem Link: https://practice.geeksforgeeks.org/problems/inversion-of-array/0/
+
 #include<bits/stdc++.h>
 using namespace std;
 
-void merge(long long int a[], int l, int m, int r, int &count){
-    int n1= m-l+1;
-    int n2= r-m;
-    long long int L[n1], R[n2];
-    for(int i=0;i<n1;i++)
-        L[i]=a[l+i];
-    for(int i=0;i<n2;i++)
-        R[i]=a[m+1+i];
-    int i=0, j=0, k=l;
-    while(i<n1 && j<n2){
-        if(L[i]<=R[j]){
-            a[k]=L[i];
-            i++;
-            count++;
+long long int merge(long long int a[],long long int temp[], int l, int m, int r){
+    int i=l, j=m, k=l;
+    long long int count=0;
+    while((i<=m-1)&& (j<=r)){
+        if(a[i]<=a[j]){
+            temp[k++]=a[i++];
         }
         else{
-            a[k]=R[j];
-            j++;
+            temp[k++]=a[j++];
+            count+=m-i;
         }
-        k++;
     }
-    
+    while(i<=m-1){
+        temp[k++]=a[i++];
+    }
+    while(j<=r){
+        temp[k++]=a[j++];
+    }
+    for (i = l; i <= r; i++) 
+        a[i] = temp[i]; 
+    return count;
 }
-
-void split(long long int a[],int l ,int r, int &count){
+long long int split(long long int a[], int l, int r, long long int temp[]){
+    long long int count=0;
     if(l<r){
         int m=(l+r)/2;
-        split(a, l, m, count);
-        split(a, m+1, r, count);
-        merge(a, l, m, r, count);
+        count+=split(a, l, m, temp);
+        count+=split(a, m+1, r, temp);
+        count+=merge(a, temp, l, m+1, r);
     }
-    
+    return count;
 }
+
 int main(){
     int t;
     cin>>t;
     while(t--){
         int n;
-        cin>>n;
-        long long int a[n];
+        cin>>n;\
+        long long int a[n], temp[n];
         for(int i=0;i<n;i++)
             cin>>a[i];
-        int count=0;
-        split(a, 0, n-1, count);
+        long long int count=0;
+        count=split(a, 0, n-1, temp);
         cout<<count<<endl;
     }
 }
